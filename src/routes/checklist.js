@@ -56,7 +56,7 @@ router.put('/:id', async (req, res) => {
     let checklist = await Checklist.findById(req.params.id);
     try {
         await checklist.update({name});
-        res.redirect('/checklists')
+        res.redirect('/checklists');
     } catch (error) {
         let errors = error.errors;
         res.status(422).render('checklists/edit', {checklist: {...checklist, errors}});
@@ -66,9 +66,9 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     try {
         let checklist = await Checklist.findByIdAndRemove(req.params.id);
-        res.status(200).json(checklist);
+        res.redirect('/checklists');
     } catch (error) {
-        res.status(422).json(error);
+        res.status(500).render("pages/error", {error: "Erro muito louco ao deletar a lista de tarefas"});  
     }
 })
 
